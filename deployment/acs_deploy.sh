@@ -19,7 +19,7 @@ echo "The DNS prefix you entered is $Dnsprefix."
 
 
 echo 
-echo "Thank you for your input. Now proceeding with SPN creation..."
+echo "Thank you for your input. Now proceeding with ACS Swarm Deployment..."
 
 #login
     az login \
