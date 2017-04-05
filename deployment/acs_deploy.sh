@@ -1,6 +1,10 @@
 #!/bin/bash
 # You need to have already created an SPN to use this script in a non-interactive session. See local_scripts/create_serviceprincipal.md for more info.
 
+echo "Reloading bashrc profile..."
+.  ~/.bashrc
+echo "Successfully reloaded bashrc profile..."
+
 # Read User Input to capture variables needed for deployment
 echo "This script will deploy a Docker Swarm Cluster for Azure Container Service to Microsoft Azure."
 echo
