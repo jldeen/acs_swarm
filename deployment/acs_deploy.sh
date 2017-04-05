@@ -10,7 +10,7 @@ echo "This script will deploy a Docker Swarm Cluster for Azure Container Service
 echo
 echo "Enter a name for your Resource Group and press [ENTER]: "
 read Resource
-echo "The Resource Group Name you entered is $name."
+echo "The Resource Group Name you entered is $Resource."
 echo "Enter a location for your deployment and press [ENTER]: "
 read Location
 echo "The Location you entered is $Location."   
