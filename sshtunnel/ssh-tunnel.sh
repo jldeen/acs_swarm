@@ -1,10 +1,14 @@
 #!/bin/sh
 
+# Capture Azure SPN password in variable as part of Dockerfile
+    echo "Enter the password for SPN '$spn' and press [ENTER]: "
+    read -s password   
+
 # Login into azure using SPN
 	if [ az account show &>/dev/null ]; then
 		echo "You are already logged in to Azure..."
 	else
-		echo "Logging into Azure..."
+		echo "Logging into Azure using supplied SPN '$spn' and provided password..."
 			az login \
 				--service-principal \
 				-u $spn \
@@ -14,8 +18,8 @@
 	fi
 
 	# Code to capture ACS master info
-        master_fqdn=$(az acs show -n $Servicename -g $Resource | jq -r '.masterProfile | .fqdn')
-        echo "Successfully captured your Master FQDN: $master_fqdn" 
+            master_fqdn=$(az acs show -n $Servicename -g $Resource | jq -r '.masterProfile | .fqdn')
+            echo "Successfully captured your Master FQDN: $master_fqdn" 
 
     # Code to capture ACS agents info
         agents_fqdn=$(az acs show -n $Servicename -g $Resource | jq -r '.agentPoolProfiles[0].fqdn')
@@ -35,8 +39,8 @@
 	n=0
 	until [ $n -ge 5 ]
 	do
-		docker info | grep 'Nodes: [1-9]' &>/dev/null && echo "$Orchestrator cluster is ready..." && break
-		n=$((n+1)) &>/dev/null && echo "$Orchestrator cluster is not ready. Retrying in 45 seconds..."
+		docker info | grep 'Nodes: [1-9]' &>/dev/null && echo "Swarm cluster is ready..." && break
+		n=$((n+1)) &>/dev/null && echo "Swarm cluster is not ready. Retrying in 45 seconds..."
 		sleep 45
 	done 
 
@@ -52,7 +56,7 @@
 # Out to end user and execute docker command
 	echo "Reminder: Your web applications can be viewed here: $agents_fqdn"
 	sleep 5
-	echo "Executing supplied $Orchestrator command: '$@'"
+	echo "Executing supplied Swarm command: '$@'"
 	# Retry logic for executing command
 	n=0
 	until [ $n -ge 5 ]
@@ -61,4 +65,4 @@
 		n=$((n+1)) &>/dev/null && echo "Retrying '$@'in 5 seconds..."
 		sleep 5
 	done
-	exit $? 
+	exit $?
