@@ -5,7 +5,7 @@
     read -s password   
 
 # Login into azure using SPN
-	if [ az account show &>/dev/null ]; then
+	if az account show &>/dev/null; then
 		echo "You are already logged in to Azure..."
 	else
 		echo "Logging into Azure using supplied SPN '$spn' and provided password..."
